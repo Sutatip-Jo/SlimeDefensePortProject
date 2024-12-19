@@ -41,9 +41,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\SlimeGirl\Script\CameraControl.cs" />
+     <Compile Include="Assets\Script\PlacementManage.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\PivotBasedCameraRig.cs" />
+     <Compile Include="Assets\Script\SlimeAnimation.cs" />
      <Compile Include="Assets\SlimeGirl\Script\AvaterRotate.cs" />
+     <Compile Include="Assets\Script\SlimePlacement.cs" />
+     <Compile Include="Assets\Script\SlimeCharacterManage.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\EnemyAi.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />

@@ -366,6 +366,10 @@
 "Assets/Kawaii Slimes/Scripts/AI/EnemyAi.cs"
 "Assets/Kawaii Slimes/Scripts/AI/Face.cs"
 "Assets/Kawaii Slimes/Scripts/GameManager.cs"
+"Assets/Script/PlacementManage.cs"
+"Assets/Script/SlimeAnimation.cs"
+"Assets/Script/SlimeCharacterManage.cs"
+"Assets/Script/SlimePlacement.cs"
 "Assets/SlimeGirl/Script/AvaterRotate.cs"
 "Assets/SlimeGirl/Script/CameraControl.cs"
 -langversion:9.0
