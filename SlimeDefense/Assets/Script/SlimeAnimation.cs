@@ -20,26 +20,22 @@ public class SlimeAnimation : MonoBehaviour
 
     public enum WalkType { Patroll, ToOrigin }
     private WalkType walkType;
+
+    void Start()
+    {
+        faceMaterial = SmileBody.GetComponent<Renderer>().material;
+        originPos = transform.position;
+        currentState = SlimeAnimationState.Idle;
+    }
+
     void Update()
     {
         switch (currentState)
         {
             case SlimeAnimationState.Idle:
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-                // StopAgent();
                 SetFace(faces.Idleface);
                 break;
-            // case SlimeAnimationState.Walk:
-            //     break;
-            // case SlimeAnimationState.Jump:
-            //     break;
-            // case SlimeAnimationState.Attack:
-            //     break;
-            // case SlimeAnimationState.Damage:
-            //     break;
-            // default:
-            //     break;
-
             case SlimeAnimationState.Walk:
 
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk")) return;
@@ -50,38 +46,31 @@ public class SlimeAnimation : MonoBehaviour
                 if (walkType == WalkType.ToOrigin)
                 {
                     agent.SetDestination(originPos);
-                    // Debug.Log("WalkToOrg");
                     SetFace(faces.WalkFace);
-                    // agent reaches the destination
                     if (agent.remainingDistance < agent.stoppingDistance)
                     {
                         walkType = WalkType.Patroll;
 
-                        //facing to camera
                         transform.rotation = Quaternion.identity;
 
                         currentState = SlimeAnimationState.Idle;
                     }
 
                 }
-                //Patroll
                 else
                 {
                     if (waypoints[0] == null) return;
 
                     agent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
 
-                    // agent reaches the destination
                     if (agent.remainingDistance < agent.stoppingDistance)
                     {
                         currentState = SlimeAnimationState.Idle;
 
-                        //wait 2s before go to next destionation
                         Invoke(nameof(WalkToNextDestination), 2f);
                     }
 
                 }
-                // set Speed parameter synchronized with agent root motion moverment
                 animator.SetFloat("Speed", agent.velocity.magnitude);
 
 
@@ -95,7 +84,6 @@ public class SlimeAnimation : MonoBehaviour
                 SetFace(faces.jumpFace);
                 animator.SetTrigger("Jump");
 
-                //Debug.Log("Jumping");
                 break;
 
             case SlimeAnimationState.Attack:
@@ -105,12 +93,9 @@ public class SlimeAnimation : MonoBehaviour
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
 
-                // Debug.Log("Attacking");
-
                 break;
             case SlimeAnimationState.Damage:
 
-                // Do nothing when animtion is playing
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Damage0")
                      || animator.GetCurrentAnimatorStateInfo(0).IsName("Damage1")
                      || animator.GetCurrentAnimatorStateInfo(0).IsName("Damage2")) return;
@@ -120,7 +105,6 @@ public class SlimeAnimation : MonoBehaviour
                 animator.SetInteger("DamageType", damType);
                 SetFace(faces.damageFace);
 
-                //Debug.Log("Take Damage");
                 break;
 
         }
