@@ -15,6 +15,7 @@ public class PlacementManage : MonoBehaviour
     {
         if (prefabPlacement == null)
         {
+            Debug.LogError("PrefabPlacement is not assigned.");
             return;
         }
 
@@ -24,6 +25,12 @@ public class PlacementManage : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             placement = Instantiate<GameObject>(prefabPlacement.gameObject, this.transform);
+            if (placement == null)
+            {
+                Debug.LogError("Failed to instantiate prefabPlacement.");
+                continue;
+            }
+
             int xSum = i / 5;
             int zSum = i % 5;
             x = xSum * 2;
@@ -31,6 +38,16 @@ public class PlacementManage : MonoBehaviour
 
             placement.transform.localPosition = new Vector3(x, placement.transform.localPosition.y, z);
             placement.SetActive(true);
+
+            SlimePlacement slimePlacement = placement.GetComponent<SlimePlacement>();
+            if (slimePlacement != null)
+            {
+                slimePlacements.Add(slimePlacement);
+            }
+            else
+            {
+                Debug.LogError("SlimePlacement component not found on instantiated prefab.");
+            }
         }
     }
 }
