@@ -8,7 +8,18 @@ public class SlimeCharacterManage : MonoBehaviour
     private bool move;
     private bool isDrag;
     private Vector3 originPos;
-    private SlimePlacement slimePlacement;
+    private SlimeAnimation slimeAnimation;
+    public float attackRange = 1f;
+
+    void Start()
+    {
+        // slimeAnimation = GetComponent<SlimeAnimation>();
+        slimeAnimation = GetComponentInChildren<SlimeAnimation>();
+    }
+    void Update()
+    {
+        Attack();
+    }
 
     void OnMouseDown()
     {
@@ -26,6 +37,10 @@ public class SlimeCharacterManage : MonoBehaviour
             isDrag = false;
             DropSlime();
         }
+    }
+    public void SetSlimeAnimationSate(SlimeAnimationState state)
+    {
+        slimeAnimation.currentState = state;
     }
 
     bool IsMouseOverSlime()
@@ -99,5 +114,33 @@ public class SlimeCharacterManage : MonoBehaviour
             Debug.Log("Log : Raycast failed;");
             transform.position = originPos;
         }
+    }
+
+    public void Attack()
+    {
+        RaycastHit hit = RaycastForMonster();
+        if (hit.collider == null)
+        {
+            return;
+        }
+        SetSlimeAnimationSate(SlimeAnimationState.Attack);
+    }
+
+    RaycastHit RaycastForMonster()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * attackRange, Color.red, 1f);
+        if (Physics.Raycast(ray, out hit, attackRange, LayerMask.GetMask("Monster")))
+        {
+            Debug.Log("Monster detected: " + hit.collider.gameObject.name);
+            hit.collider.gameObject.GetComponent<MonsterManage>().TakeDamage();
+        }
+        else
+        {
+            Debug.Log("No monster detected.");
+        }
+        Debug.Log("Raycast origin: " + ray.origin + ", direction: " + ray.direction);
+        return hit;
     }
 }

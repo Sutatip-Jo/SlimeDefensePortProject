@@ -16,6 +16,7 @@ public class SlimePlacement : MonoBehaviour
 
         slime.transform.position = this.transform.position;
         currentSlime = slime;
+        currentSlime.SetSlimeAnimationSate(SlimeAnimationState.Jump);
     }
 
     public void RemoveSlime()
